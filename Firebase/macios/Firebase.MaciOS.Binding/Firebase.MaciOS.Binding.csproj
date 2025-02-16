@@ -1,17 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <TargetFrameworks>net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
     <IsTrimmable>true</IsTrimmable>
-    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
-    <RootNamespace>Firebase.CrashAnalytics</RootNamespace>
-    <AssemblyName>Firebase.CrashAnalytics</AssemblyName>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,29 +15,27 @@
     <Description>.NET for iOS bindings for Firebase APIs - Crashlytics and Analytics</Description>
     <Authors>Oleksii Burianov</Authors>
     <Owners>Oleksii Burianov</Owners>
-    <Copyright>© Oleksii Burianov.</Copyright>
+    <Copyright>© 2025 Oleksii Burianov</Copyright>
     <PackageIcon>firebaseioscrashlytics_128x128.png</PackageIcon>
     <PackageProjectUrl>https://github.com/AlexeyBuryanov/Net.Firebase.iOS.CrashAnalytics</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexeyBuryanov/Net.Firebase.iOS.CrashAnalytics</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageVersion>1.0.0.0</PackageVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>firebase; crashlytics; analytics</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\LICENSE">
+    <None Include="LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\..\README.md">
+    <None Include="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="firebaseioscrashlytics_128x128.png">
+    <None Include="icon_128x128.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
