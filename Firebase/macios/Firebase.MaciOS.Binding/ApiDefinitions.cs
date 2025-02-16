@@ -1,0 +1,196 @@
+#nullable enable
+using System;
+using Foundation;
+using ObjCRuntime;
+
+namespace Firebase
+{
+	// @interface MauiFIRAnalytics : NSObject
+	[BaseType (typeof(NSObject))]
+	interface MauiFIRAnalytics
+	{
+		// +(void)logEventWithEventName:(NSString * _Nonnull)eventName parameters:(NSDictionary<NSString *,id> * _Nonnull)parameters;
+		[Static]
+		[Export ("logEventWithEventName:parameters:")]
+		void LogEvent (string eventName, NSDictionary parameters);
+
+		// +(void)getAppInstanceIdWithCompletion:(void (^ _Nonnull)(NSString * _Nullable))completion;
+		[Static]
+		[Export ("getAppInstanceIdWithCompletion:")]
+		[Async]
+		void GetAppInstanceId (Action<NSString?> completion);
+
+		// +(void)setUserIdWithUserId:(NSString * _Nonnull)userId;
+		[Static]
+		[Export ("setUserIdWithUserId:")]
+		void SetUserId (string userId);
+
+		// +(void)setUserPropertyWithPropertyName:(NSString * _Nonnull)propertyName value:(NSString * _Nonnull)value;
+		[Static]
+		[Export ("setUserPropertyWithPropertyName:value:")]
+		void SetUserProperty (string propertyName, string value);
+
+		// +(void)setSessionTimeoutWithSeconds:(NSInteger)seconds;
+		[Static]
+		[Export ("setSessionTimeoutWithSeconds:")]
+		void SetSessionTimeout (nint seconds);
+
+		// +(void)resetAnalyticsData;
+		[Static]
+		[Export ("resetAnalyticsData")]
+		void ResetAnalyticsData ();
+	}
+
+	// @interface MauiFIRApp : NSObject
+	[BaseType (typeof(NSObject))]
+	interface MauiFIRApp
+	{
+		// +(void)autoConfigure;
+		[Static]
+		[Export ("autoConfigure")]
+		void AutoConfigure ();
+
+		// +(void)configure:(NSString * _Nonnull)googleAppId gcmSenderId:(NSString * _Nonnull)gcmSenderId;
+		[Static]
+		[Export ("configure:gcmSenderId:")]
+		void Configure (string googleAppId, string gcmSenderId);
+	}
+	
+	delegate void HasUnsentReportsHandler (bool hasUnsentReports);
+	delegate void CheckAndUpdateUnsentReportsHandler ([NullAllowed] CrashlyticsReport report);
+
+	// @interface FIRCrashlytics : NSObject
+	[DisableDefaultCtor]
+	[BaseType (typeof(NSObject), Name = "FIRCrashlytics")]
+	interface Crashlytics
+	{
+		// +(instancetype _Nonnull)crashlytics __attribute__((swift_name("crashlytics()")));
+		[Static]
+		[Export ("crashlytics")]
+		Crashlytics SharedInstance { get; }
+
+		// -(void)log:(NSString * _Nonnull)msg;
+		[Export ("log:")]
+		void Log (string message);
+
+		// -(void)setCustomValue:(id _Nonnull)value forKey:(NSString * _Nonnull)key;
+		[Export ("setCustomValue:forKey:")]
+		void SetCustomValue (NSObject value, string key);
+
+		// -(void)setCustomKeysAndValues:(NSDictionary * _Nonnull)keysAndValues;
+		[Export ("setCustomKeysAndValues:")]
+		void SetCustomKeysAndValues (NSDictionary<NSString, NSObject> keysAndValues);
+
+		// -(void)setUserID:(NSString * _Nonnull)userID;
+		[Export ("setUserID:")]
+		void SetUserId (string userId);
+
+		// -(void)recordError:(NSError * _Nonnull)error __attribute__((swift_name("record(error:)")));
+		[Export ("recordError:")]
+		void RecordError (NSError error);
+
+		// -(void)recordExceptionModel:(FIRExceptionModel * _Nonnull)exceptionModel __attribute__((swift_name("record(exceptionModel:)")));
+		[Export ("recordExceptionModel:")]
+		void RecordExceptionModel (ExceptionModel exceptionModel);
+
+		// -(BOOL)didCrashDuringPreviousExecution;
+		[Export ("didCrashDuringPreviousExecution")]
+		bool DidCrashDuringPreviousExecution { get; }
+
+		// -(void)setCrashlyticsCollectionEnabled:(BOOL)enabled;
+		[Export ("setCrashlyticsCollectionEnabled:")]
+		void SetCrashlyticsCollectionEnabled (bool enabled);
+
+		// -(BOOL)isCrashlyticsCollectionEnabled;
+		[Export ("isCrashlyticsCollectionEnabled")]
+		bool IsCrashlyticsCollectionEnabled { get; }
+
+		// -(void)checkForUnsentReportsWithCompletion:(void (^ _Nonnull)(BOOL))completion __attribute__((swift_name("checkForUnsentReports(completion:)")));
+		[Async]
+		[Export ("checkForUnsentReportsWithCompletion:")]
+		void CheckForUnsentReports (HasUnsentReportsHandler completion);
+
+		// -(void)checkAndUpdateUnsentReportsWithCompletion:(void (^ _Nonnull)(FIRCrashlyticsReport * _Nullable))completion __attribute__((swift_name("checkAndUpdateUnsentReports(completion:)")));
+		[Export ("checkAndUpdateUnsentReportsWithCompletion:")]
+		void CheckAndUpdateUnsentReportsWithCompletion (CheckAndUpdateUnsentReportsHandler completionHandler);
+
+		// -(void)sendUnsentReports;
+		[Export ("sendUnsentReports")]
+		void SendUnsentReports ();
+
+		// -(void)deleteUnsentReports;
+		[Export ("deleteUnsentReports")]
+		void DeleteUnsentReports ();
+	}
+
+	// @interface FIRExceptionModel : NSObject
+	[DisableDefaultCtor]
+	[BaseType (typeof(NSObject), Name = "FIRExceptionModel")]
+	interface ExceptionModel
+	{
+		// -(instancetype _Nonnull)initWithName:(NSString * _Nonnull)name reason:(NSString * _Nonnull)reason;
+		[Export ("initWithName:reason:")]
+		NativeHandle Constructor (string name, string reason);
+
+		// +(instancetype _Nonnull)exceptionModelWithName:(NSString * _Nonnull)name reason:(NSString * _Nonnull)reason __attribute__((availability(swift, unavailable)));
+		[Static]
+		[Export ("exceptionModelWithName:reason:")]
+		ExceptionModel Create (string name, string reason);
+
+		// @property (copy, nonatomic) NSArray<FIRStackFrame *> * _Nonnull stackTrace;
+		[Export ("stackTrace", ArgumentSemantic.Copy)]
+		StackFrame [] StackTrace { get; set; }
+	}
+
+	[DisableDefaultCtor]
+	[BaseType (typeof(NSObject), Name = "FIRStackFrame")]
+	interface StackFrame
+	{
+		// -(instancetype _Nonnull)initWithSymbol:(NSString * _Nonnull)symbol file:(NSString * _Nonnull)file line:(NSInteger)line;
+		[Export ("initWithSymbol:file:line:")]
+		NativeHandle Constructor (string symbol, string file, nint line);
+
+		// + (instancetype)stackFrameWithAddress:(NSUInteger)address;
+		[Static]
+		[Export ("stackFrameWithAddress:address")]
+		StackFrame Create (nuint address);
+
+		// +(instancetype _Nonnull)stackFrameWithSymbol:(NSString * _Nonnull)symbol file:(NSString * _Nonnull)file line:(NSInteger)line __attribute__((availability(swift, unavailable)));
+		[Static]
+		[Export ("stackFrameWithSymbol:file:line:")]
+		StackFrame Create (string symbol, string file, nint line);
+	}
+
+	// @interface FIRCrashlyticsReport : NSObject	
+	[DisableDefaultCtor]
+	[BaseType (typeof (NSObject), Name = "FIRCrashlyticsReport")]
+	interface CrashlyticsReport {
+		// @property (readonly, nonatomic) NSString * _Nonnull reportID;
+		[Export ("reportID")]
+		string ReportID { get; }
+
+		// @property (readonly, nonatomic) NSDate * _Nonnull dateCreated;
+		[Export ("dateCreated")]
+		NSDate DateCreated { get; }
+
+		// @property (readonly, nonatomic) BOOL hasCrash;
+		[Export ("hasCrash")]
+		bool HasCrash { get; }
+
+		// -(void)log:(NSString * _Nonnull)msg;
+		[Export ("log:")]
+		void Log (string msg);
+
+		// -(void)setCustomValue:(id _Nonnull)value forKey:(NSString * _Nonnull)key;
+		[Export ("setCustomValue:forKey:")]
+		void SetCustomValue (NSObject value, string key);
+
+		// -(void)setCustomKeysAndValues:(NSDictionary * _Nonnull)keysAndValues;
+		[Export ("setCustomKeysAndValues:")]
+		void SetCustomKeysAndValues (NSDictionary<NSString, NSObject>  keysAndValues);
+
+		// -(void)setUserID:(NSString * _Nonnull)userID;
+		[Export ("setUserID:")]
+		void SetUserID (string userID);
+	}
+}
