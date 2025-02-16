@@ -16,7 +16,7 @@
     <Authors>Oleksii Burianov</Authors>
     <Owners>Oleksii Burianov</Owners>
     <Copyright>© 2025 Oleksii Burianov</Copyright>
-    <PackageIcon>firebaseioscrashlytics_128x128.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/AlexeyBuryanov/Net.Firebase.iOS.CrashAnalytics</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexeyBuryanov/Net.Firebase.iOS.CrashAnalytics</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -35,7 +35,7 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="icon_128x128.png">
+    <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
